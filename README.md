@@ -47,6 +47,22 @@ INTERVIEW_MAX_QUESTIONS=6
 
 You can copy `backend/.env.example` to `backend/.env` for local values. Keep `backend/.env` out of Git.
 
+Alternatively, for Spring-native local overrides, copy:
+
+```bash
+backend/src/main/resources/application-local.example.properties
+```
+
+to:
+
+```bash
+backend/src/main/resources/application-local.properties
+```
+
+and put your local MySQL password there. `application-local.properties` is ignored by Git.
+
+The backend imports that file automatically when you run from the `backend` folder, so no extra Spring profile is required.
+
 Run Ollama:
 
 ```bash
