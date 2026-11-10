@@ -1,0 +1,24 @@
+{
+  "type": "OBJECT",
+  "properties": {
+    "questions": {
+      "type": "ARRAY",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "OBJECT",
+        "properties": {
+          "text": {"type": "STRING"},
+          "topicId": {"type": "INTEGER", "minimum": 1},
+          "subtopic": {"type": "STRING", "nullable": true},
+          "difficulty": {"type": "STRING", "enum": ["BEGINNER", "INTERMEDIATE", "ADVANCED"]},
+          "questionType": {"type": "STRING", "enum": ["FUNDAMENTAL", "PRACTICAL", "DEBUGGING", "SYSTEM_DESIGN", "ARCHITECTURE", "SCENARIO"]},
+          "tags": {"type": "ARRAY", "maxItems": 10, "items": {"type": "STRING"}},
+          "rationale": {"type": "STRING"}
+        },
+        "required": ["text", "topicId", "difficulty", "questionType", "tags", "rationale"]
+      }
+    }
+  },
+  "required": ["questions"]
+}

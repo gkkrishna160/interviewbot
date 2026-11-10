@@ -1,0 +1,1 @@
+{"type":"OBJECT","properties":{"score":{"type":"NUMBER","minimum":0,"maximum":10},"feedback":{"type":"STRING"},"modelAnswer":{"type":"STRING"}},"required":["score","feedback","modelAnswer"]}

@@ -1,40 +1,42 @@
-import { useState } from 'react';
-import { Home } from './pages/Home';
-import { InterviewReport } from './pages/InterviewReport';
-import { InterviewScreen } from './pages/InterviewScreen';
-import { InterviewSetup } from './pages/InterviewSetup';
-import { InterviewResponse, QuestionResponse } from './types/interview';
-
-type Page = 'home' | 'setup' | 'interview' | 'report';
-
-function App() {
-  const [page, setPage] = useState<Page>('home');
-  const [interview, setInterview] = useState<InterviewResponse | null>(null);
-  const [question, setQuestion] = useState<QuestionResponse | null>(null);
-
+import { useCallback, useEffect, useState } from "react";
+import { interviewApi } from "./api/interviewApi";
+import { QuestionBank } from "./pages/QuestionBank";
+import { MockInterview } from "./pages/MockInterview";
+import type { AppConfig } from "./types/interview";
+export default function App() {
+  const [config, setConfig] = useState<AppConfig | null>(null);
+  const [error, setError] = useState("");
+  const load = useCallback(async () => {
+    setError("");
+    try {
+      setConfig(await interviewApi.config());
+    } catch (e) {
+      setError(
+        e instanceof Error ? e.message : "Could not load application mode",
+      );
+    }
+  }, []);
+  useEffect(() => {
+    void load();
+  }, [load]);
   return (
     <main className="app-shell">
-      {page === 'home' && <Home onStart={() => setPage('setup')} />}
-      {page === 'setup' && (
-        <InterviewSetup
-          onInterviewStarted={(created, firstQuestion) => {
-            setInterview(created);
-            setQuestion(firstQuestion);
-            setPage('interview');
-          }}
-        />
+      {error ? (
+        <section className="panel">
+          <p className="error" role="alert">
+            {error}
+          </p>
+          <button className="secondary" onClick={() => void load()}>
+            Retry connection
+          </button>
+        </section>
+      ) : !config ? (
+        <p role="status">Loading InterviewBot…</p>
+      ) : config.mode === "interview_mode" ? (
+        <MockInterview config={config} />
+      ) : (
+        <QuestionBank />
       )}
-      {page === 'interview' && interview && question && (
-        <InterviewScreen
-          interview={interview}
-          initialQuestion={question}
-          onReport={() => setPage('report')}
-          onInterviewUpdated={setInterview}
-        />
-      )}
-      {page === 'report' && interview && <InterviewReport interviewId={interview.id} onNew={() => setPage('setup')} />}
     </main>
   );
 }
-
-export default App;

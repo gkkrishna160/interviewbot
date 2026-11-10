@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.5.16</version>
         <relativePath/>
     </parent>
 
@@ -19,9 +19,43 @@
 
     <properties>
         <java.version>21</java.version>
+        <google-adk.version>1.14.0</google-adk.version>
+        <langchain4j.version>1.12.2</langchain4j.version>
+        <jackson-bom.version>2.20.2</jackson-bom.version>
+        <okhttp.version>5.3.2</okhttp.version>
+        <kotlin.version>2.2.21</kotlin.version>
+        <opentelemetry.version>1.51.0</opentelemetry.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.google.adk</groupId>
+            <artifactId>google-adk</artifactId>
+            <version>${google-adk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.adk</groupId>
+            <artifactId>google-adk-langchain4j</artifactId>
+            <version>${google-adk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-ollama</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.langchain4j</groupId>
+            <artifactId>langchain4j-open-ai</artifactId>
+            <version>${langchain4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -49,9 +83,27 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**/application-local.properties</exclude>
+                    <exclude>**/application-*.local.properties</exclude>
+                    <exclude>**/.env*</exclude>
+                    <exclude>**/*.pem</exclude>
+                    <exclude>**/*.key</exclude>
+                    <exclude>**/*.p12</exclude>
+                    <exclude>**/*.pfx</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,16 @@
+{
+  "type": "OBJECT",
+  "properties": {
+    "decision": {"type": "STRING", "enum": ["APPROVED", "REJECTED", "DUPLICATE"]},
+    "qualityScore": {"type": "INTEGER", "minimum": 0, "maximum": 100},
+    "relevanceScore": {"type": "INTEGER", "minimum": 0, "maximum": 100},
+    "topicId": {"type": "INTEGER", "minimum": 1},
+    "subtopic": {"type": "STRING", "nullable": true},
+    "difficulty": {"type": "STRING", "enum": ["BEGINNER", "INTERMEDIATE", "ADVANCED"]},
+    "questionType": {"type": "STRING", "enum": ["FUNDAMENTAL", "PRACTICAL", "DEBUGGING", "SYSTEM_DESIGN", "ARCHITECTURE", "SCENARIO"]},
+    "tags": {"type": "ARRAY", "maxItems": 10, "items": {"type": "STRING"}},
+    "reason": {"type": "STRING"},
+    "duplicateOfId": {"type": "INTEGER", "nullable": true, "minimum": 1}
+  },
+  "required": ["decision", "qualityScore", "relevanceScore", "topicId", "difficulty", "questionType", "tags", "reason"]
+}
